@@ -161,6 +161,8 @@ a { color: var(--color-accent); }
 .section-head.centered { margin-inline: auto; text-align: center; }
 .section-head.centered .eyebrow { justify-content: center; }
 .section-head.centered .eyebrow::before { display: none; }
+.eyebrow.amber { color: var(--color-amber); }
+.eyebrow.amber::before { background: var(--amber-gradient); }
 
 /* ============ Navigation ============ */
 .site-nav {
