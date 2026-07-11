@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gläserei Klarblick – Ihr Meisterbetrieb für Verglasung, Glasbruch-Reparatur, Duschkabinen und Spiegel. 24h-Notdienst, Festpreisgarantie, über 30 Jahre Erfahrung.">
+  <title>Gläserei Klarblick – Meisterbetrieb für Glas &amp; Verglasung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================
+       Design Tokens — design-system/gläserei-dashboard/MASTER.md
+       ========================================================== */
+    :root {
+      --color-primary: #0F172A;
+      --color-on-primary: #FFFFFF;
+      --color-secondary: #334155;
+      --color-accent: #0369A1;
+      --color-accent-hover: #075985;
+      --color-background: #F8FAFC;
+      --color-foreground: #020617;
+      --color-muted: #E8ECF1;
+      --color-border: #E2E8F0;
+      --color-destructive: #DC2626;
+      --color-ring: #0F172A;
+
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2rem;
+      --space-2xl: 3rem;
+      --space-3xl: 4rem;
+
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+      --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+
+      --font-heading: 'Lexend', system-ui, sans-serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+
+      --nav-height: 4.5rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-height) + 1rem); }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--color-foreground);
+      background: var(--color-background);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 { font-family: var(--font-heading); line-height: 1.2; color: var(--color-primary); }
+
+    img, svg { display: block; max-width: 100%; }
+
+    a { color: var(--color-accent); }
+
+    :focus-visible {
+      outline: 3px solid var(--color-ring);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -150%);
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      z-index: 1000;
+      transition: transform 200ms ease;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .skip-link:focus { transform: translate(-50%, 0); }
+
+    .container {
+      max-width: 72rem;
+      margin-inline: auto;
+      padding-inline: var(--space-md);
+    }
+    @media (min-width: 768px) { .container { padding-inline: var(--space-xl); } }
+
+    /* ============ Navigation ============ */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(248, 250, 252, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .site-nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      min-height: var(--nav-height);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+    .brand svg { color: var(--color-accent); }
+
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: var(--space-lg);
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--color-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: var(--space-sm) var(--space-xs);
+      transition: color 200ms ease;
+    }
+    .nav-links a:hover { color: var(--color-accent); }
+
+    .nav-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      color: var(--color-primary);
+      cursor: pointer;
+      transition: background 200ms ease;
+    }
+    .nav-toggle:hover { background: var(--color-muted); }
+    .nav-toggle .icon-close { display: none; }
+    .nav-toggle[aria-expanded="true"] .icon-menu { display: none; }
+    .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+
+    .mobile-menu {
+      display: none;
+      border-top: 1px solid var(--color-border);
+      background: var(--color-background);
+      padding: var(--space-md);
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu ul { list-style: none; display: grid; gap: var(--space-xs); }
+    .mobile-menu a {
+      display: block;
+      padding: var(--space-md);
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: var(--radius-md);
+      transition: background 200ms ease;
+    }
+    .mobile-menu a:hover { background: var(--color-muted); }
+
+    @media (min-width: 1024px) {
+      .nav-links { display: flex; }
+      .nav-toggle, .mobile-menu { display: none !important; }
+    }
+
+    /* ============ Buttons ============ */
+    .btn-primary, .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      padding: 12px 24px;
+      min-height: 44px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+    .btn-primary {
+      background: var(--color-accent);
+      color: var(--color-on-primary);
+      border: 2px solid var(--color-accent);
+    }
+    .btn-primary:hover {
+      background: var(--color-accent-hover);
+      border-color: var(--color-accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+    .btn-secondary:hover {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      transform: translateY(-1px);
+    }
+
+    /* ============ Hero ============ */
+    .hero {
+      padding-block: var(--space-3xl);
+      background:
+        radial-gradient(ellipse 80% 60% at 85% 10%, rgba(3, 105, 161, 0.08), transparent),
+        linear-gradient(180deg, #FFFFFF 0%, var(--color-background) 100%);
+    }
+    .hero .container {
+      display: grid;
+      gap: var(--space-2xl);
+      align-items: center;
+    }
+    @media (min-width: 1024px) {
+      .hero .container { grid-template-columns: 1.1fr 0.9fr; }
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background: rgba(3, 105, 161, 0.1);
+      color: var(--color-accent-hover);
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: 999px;
+      margin-bottom: var(--space-lg);
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      margin-bottom: var(--space-lg);
+    }
+    .hero h1 em { font-style: normal; color: var(--color-accent); }
+    .hero p.lede {
+      font-size: 1.25rem;
+      color: var(--color-secondary);
+      max-width: 34em;
+      margin-bottom: var(--space-xl);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-xl); }
+    .hero-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md) var(--space-lg);
+      list-style: none;
+      color: var(--color-secondary);
+      font-size: 0.9375rem;
+      font-weight: 500;
+    }
+    .hero-trust li { display: flex; align-items: center; gap: var(--space-sm); }
+    .hero-trust svg { color: var(--color-accent); flex-shrink: 0; }
+
+    .hero-visual {
+      background: var(--color-primary);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      color: var(--color-on-primary);
+      box-shadow: var(--shadow-xl);
+    }
+    .hero-visual h2 {
+      color: var(--color-on-primary);
+      font-size: 1.125rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+    .hero-visual h2 svg { color: #38BDF8; }
+    .status-list { list-style: none; display: grid; gap: var(--space-md); }
+    .status-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      font-size: 0.9375rem;
+    }
+    .status-list .tag {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .tag-open { background: rgba(56, 189, 248, 0.2); color: #7DD3FC; }
+    .tag-done { background: rgba(74, 222, 128, 0.18); color: #86EFAC; }
+
+    /* ============ Metrics ============ */
+    .metrics { background: #FFFFFF; border-block: 1px solid var(--color-border); padding-block: var(--space-2xl); }
+    .metrics .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xl);
+      text-align: center;
+    }
+    @media (min-width: 768px) { .metrics .container { grid-template-columns: repeat(4, 1fr); } }
+    .metric-value {
+      font-family: var(--font-heading);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+    .metric-label { color: var(--color-secondary); font-weight: 500; margin-top: var(--space-xs); }
+
+    /* ============ Sections ============ */
+    .section { padding-block: var(--space-3xl); }
+    .section-head { max-width: 44rem; margin-bottom: var(--space-2xl); }
+    .section-head .eyebrow {
+      color: var(--color-accent);
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-sm);
+    }
+    .section-head h2 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); margin-bottom: var(--space-md); }
+    .section-head p { color: var(--color-secondary); font-size: 1.125rem; }
+
+    /* Services */
+    .services-grid {
+      display: grid;
+      gap: var(--space-lg);
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-sm);
+      transition: all 200ms ease;
+    }
+    .card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .card .card-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: rgba(3, 105, 161, 0.1);
+      color: var(--color-accent);
+      margin-bottom: var(--space-md);
+    }
+    .card h3 { font-size: 1.1875rem; font-weight: 600; margin-bottom: var(--space-sm); }
+    .card p { color: var(--color-secondary); font-size: 0.9688rem; }
+
+    /* Process */
+    .process { background: var(--color-primary); }
+    .process .section-head h2, .process .section-head .eyebrow { color: var(--color-on-primary); }
+    .process .section-head .eyebrow { color: #7DD3FC; }
+    .process .section-head p { color: #CBD5E1; }
+    .process-grid { display: grid; gap: var(--space-lg); counter-reset: step; }
+    @media (min-width: 768px) { .process-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .process-grid { grid-template-columns: repeat(4, 1fr); } }
+    .process-step {
+      counter-increment: step;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+    }
+    .process-step::before {
+      content: counter(step, decimal-leading-zero);
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #7DD3FC;
+      margin-bottom: var(--space-md);
+    }
+    .process-step h3 { color: var(--color-on-primary); font-size: 1.125rem; margin-bottom: var(--space-sm); }
+    .process-step p { color: #CBD5E1; font-size: 0.9375rem; }
+
+    /* Testimonials & badges */
+    .proof-grid { display: grid; gap: var(--space-lg); }
+    @media (min-width: 1024px) { .proof-grid { grid-template-columns: 2fr 1fr; } }
+    .testimonials { display: grid; gap: var(--space-lg); }
+    @media (min-width: 640px) { .testimonials { grid-template-columns: repeat(2, 1fr); } }
+    blockquote.card { margin: 0; display: flex; flex-direction: column; gap: var(--space-md); }
+    blockquote.card:hover { transform: none; box-shadow: var(--shadow-sm); }
+    blockquote .stars { display: flex; gap: 2px; color: #D97706; }
+    blockquote p { font-size: 1rem; color: var(--color-foreground); }
+    blockquote footer { color: var(--color-secondary); font-size: 0.875rem; font-weight: 600; }
+
+    .badges {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+      align-content: start;
+    }
+    .badges h3 { font-size: 1.0625rem; }
+    .badge-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-background);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--color-primary);
+      transition: all 200ms ease;
+    }
+    .badge-item:hover { border-color: var(--color-accent); box-shadow: var(--shadow-sm); }
+    .badge-item svg { color: var(--color-accent); flex-shrink: 0; }
+    .badge-item small { display: block; color: var(--color-secondary); font-weight: 400; }
+
+    /* ============ Contact ============ */
+    .contact { background: #FFFFFF; border-top: 1px solid var(--color-border); }
+    .contact-grid { display: grid; gap: var(--space-2xl); }
+    @media (min-width: 1024px) { .contact-grid { grid-template-columns: 1fr 1.2fr; } }
+    .contact-info { display: grid; gap: var(--space-lg); align-content: start; }
+    .contact-line { display: flex; gap: var(--space-md); align-items: flex-start; }
+    .contact-line svg { color: var(--color-accent); flex-shrink: 0; margin-top: 2px; }
+    .contact-line strong { display: block; font-family: var(--font-heading); font-weight: 600; }
+    .contact-line span, .contact-line a { color: var(--color-secondary); }
+
+    form.card:hover { transform: none; box-shadow: var(--shadow-sm); }
+    .form-grid { display: grid; gap: var(--space-lg); }
+    @media (min-width: 640px) { .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); } }
+    .field label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      margin-bottom: var(--space-xs);
+      color: var(--color-primary);
+    }
+    .field .required { color: var(--color-destructive); }
+    .field .hint { display: block; font-size: 0.8438rem; color: var(--color-secondary); margin-top: var(--space-xs); }
+    .input {
+      width: 100%;
+      padding: 12px 16px;
+      min-height: 44px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--color-foreground);
+      background: #FFFFFF;
+      transition: border-color 200ms ease, box-shadow 200ms ease;
+    }
+    .input:focus {
+      border-color: var(--color-ring);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.13);
+    }
+    textarea.input { resize: vertical; min-height: 7rem; }
+    .form-note { font-size: 0.875rem; color: var(--color-secondary); }
+
+    /* ============ Footer ============ */
+    .site-footer { background: var(--color-primary); color: #CBD5E1; padding-block: var(--space-2xl); }
+    .site-footer .container {
+      display: grid;
+      gap: var(--space-xl);
+    }
+    @media (min-width: 768px) {
+      .site-footer .container { grid-template-columns: 2fr 1fr 1fr; }
+    }
+    .site-footer .brand { color: var(--color-on-primary); margin-bottom: var(--space-md); }
+    .site-footer h3 { color: var(--color-on-primary); font-size: 1rem; margin-bottom: var(--space-md); }
+    .site-footer ul { list-style: none; display: grid; gap: var(--space-sm); }
+    .site-footer a { color: #CBD5E1; text-decoration: none; transition: color 200ms ease; }
+    .site-footer a:hover { color: var(--color-on-primary); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.15);
+      margin-top: var(--space-xl);
+      padding-top: var(--space-lg);
+      font-size: 0.875rem;
+      color: #94A3B8;
+    }
+
+    /* ============ Reveal animation (nur mit JS aktiv, No-JS-Fallback bleibt sichtbar) ============ */
+    .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity 400ms ease-out, transform 400ms ease-out; }
+    .js .reveal.visible { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+      .js .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+  <nav class="site-nav" aria-label="Hauptnavigation">
+    <div class="container">
+      <a class="brand" href="#top" aria-label="Gläserei Klarblick – Startseite">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M7 17 17 7"/><path d="M7 11l4-4"/>
+        </svg>
+        Gläserei Klarblick
+      </a>
+      <ul class="nav-links">
+        <li><a href="#leistungen">Leistungen</a></li>
+        <li><a href="#ablauf">Ablauf</a></li>
+        <li><a href="#referenzen">Referenzen</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+      <div style="display:flex; align-items:center; gap: var(--space-md);">
+        <a class="btn-primary" href="#kontakt">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Angebot anfordern
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menü öffnen">
+          <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <ul>
+        <li><a href="#leistungen">Leistungen</a></li>
+        <li><a href="#ablauf">Ablauf</a></li>
+        <li><a href="#referenzen">Referenzen</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- 1. Hero: Mission + Glaubwürdigkeit -->
+    <header class="hero" id="top">
+      <div class="container">
+        <div>
+          <p class="hero-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+            Meisterbetrieb der Glaser-Innung
+          </p>
+          <h1>Glas ist unser Handwerk – <em>Präzision</em> unser Versprechen.</h1>
+          <p class="lede">Von der Notverglasung bis zur maßgefertigten Duschkabine: Gläserei Klarblick steht seit über 30 Jahren für saubere Arbeit, ehrliche Festpreise und schnelle Termine in Ihrer Region.</p>
+          <div class="hero-actions">
+            <a class="btn-primary" href="#kontakt">Kostenloses Angebot</a>
+            <a class="btn-secondary" href="tel:+49301234567">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              24h-Notdienst anrufen
+            </a>
+          </div>
+          <ul class="hero-trust">
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Festpreisgarantie
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Termin innerhalb 48&nbsp;h
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Direkte Versicherungsabwicklung
+            </li>
+          </ul>
+        </div>
+        <div class="hero-visual" aria-label="Aktuelle Einsatzübersicht (Beispiel)">
+          <h2>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Heute im Einsatz
+          </h2>
+          <ul class="status-list">
+            <li>Notverglasung Schaufenster, Mitte <span class="tag tag-open">unterwegs</span></li>
+            <li>Duschkabine nach Maß, Prenzlauer Berg <span class="tag tag-done">montiert</span></li>
+            <li>Isolierglas-Tausch, Charlottenburg <span class="tag tag-done">abgeschlossen</span></li>
+            <li>Spiegelwand Fitnessstudio, Neukölln <span class="tag tag-open">Aufmaß 14:30</span></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Kennzahlen / Nachweis -->
+    <section class="metrics" aria-label="Kennzahlen">
+      <div class="container">
+        <div class="reveal">
+          <p class="metric-value" data-count="30" data-suffix="+">30+</p>
+          <p class="metric-label">Jahre Meisterbetrieb</p>
+        </div>
+        <div class="reveal">
+          <p class="metric-value" data-count="4800" data-suffix="+">4.800+</p>
+          <p class="metric-label">Abgeschlossene Aufträge</p>
+        </div>
+        <div class="reveal">
+          <p class="metric-value" data-count="48" data-prefix="&lt; " data-suffix=" h">&lt; 48 h</p>
+          <p class="metric-label">Bis zum Vor-Ort-Termin</p>
+        </div>
+        <div class="reveal">
+          <p class="metric-value" data-count="4.9" data-decimals="1" data-suffix=" / 5">4,9 / 5</p>
+          <p class="metric-label">Kundenbewertung</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Leistungen -->
+    <section class="section" id="leistungen">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Leistungen</p>
+          <h2>Alles aus Glas – aus einer Hand</h2>
+          <p>Ob Reparatur im Notfall oder Maßanfertigung nach Wunsch: Wir beraten, fertigen und montieren mit eigener Werkstatt und festem Montageteam.</p>
+        </div>
+        <div class="services-grid">
+          <article class="card reveal">
+            <span class="card-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 10h6L11 22l2-10H7z"/></svg>
+            </span>
+            <h3>Notverglasung &amp; Glasbruch</h3>
+            <p>24h-Notdienst bei eingeschlagenen Scheiben und Sturmschäden – Absicherung sofort, Neuverglasung meist am selben Tag.</p>
+          </article>
+          <article class="card reveal">
+            <span class="card-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18M3 12h18"/></svg>
+            </span>
+            <h3>Fenster &amp; Isolierglas</h3>
+            <p>Energieeffizienter Austausch von Einfach- auf Wärmeschutzglas, inklusive Beratung zu Schall- und Sonnenschutz.</p>
+          </article>
+          <article class="card reveal">
+            <span class="card-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v18"/><path d="M2 22h20"/><path d="M14 12h.01"/></svg>
+            </span>
+            <h3>Glastüren &amp; Trennwände</h3>
+            <p>Rahmenlose Ganzglastüren und Bürotrennwände aus ESG-Sicherheitsglas – millimetergenau nach Aufmaß gefertigt.</p>
+          </article>
+          <article class="card reveal">
+            <span class="card-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 21h10"/><path d="M5 3h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="m8 7 3 3-3 3"/></svg>
+            </span>
+            <h3>Duschkabinen nach Maß</h3>
+            <p>Walk-in-Duschen und Eckkabinen mit beschichtetem Klarglas – auch für Dachschrägen und Sondermaße.</p>
+          </article>
+          <article class="card reveal">
+            <span class="card-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 9c1-1.5 2.5-2 4-2"/></svg>
+            </span>
+            <h3>Spiegel &amp; Glasrückwände</h3>
+            <p>Wandspiegel, Spiegelwände und lackierte Küchenrückwände – zugeschnitten, gebohrt und fachgerecht verklebt.</p>
+          </article>
+          <article class="card reveal">
+            <span class="card-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <h3>Sicherheits- &amp; Schaufensterglas</h3>
+            <p>VSG-Verglasung, einbruchhemmende Folien und großformatige Schaufensterscheiben für Gewerbekunden.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Ablauf -->
+    <section class="section process" id="ablauf">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">So arbeiten wir</p>
+          <h2>In vier Schritten zur neuen Verglasung</h2>
+          <p>Transparent von der ersten Anfrage bis zur Endabnahme – Sie wissen jederzeit, was als Nächstes passiert.</p>
+        </div>
+        <div class="process-grid">
+          <div class="process-step reveal">
+            <h3>Anfrage &amp; Beratung</h3>
+            <p>Sie schildern uns Ihr Anliegen per Telefon oder Formular. Wir melden uns werktags innerhalb von 2 Stunden zurück.</p>
+          </div>
+          <div class="process-step reveal">
+            <h3>Aufmaß vor Ort</h3>
+            <p>Ein Geselle oder Meister nimmt kostenlos Maß, prüft die Einbausituation und bespricht Glasarten und Optionen.</p>
+          </div>
+          <div class="process-step reveal">
+            <h3>Festpreis-Angebot</h3>
+            <p>Sie erhalten ein schriftliches Angebot mit Festpreis – keine versteckten Kosten, keine Überraschungen.</p>
+          </div>
+          <div class="process-step reveal">
+            <h3>Fertigung &amp; Montage</h3>
+            <p>Wir fertigen in der eigenen Werkstatt und montieren zum vereinbarten Termin – besenrein und mit Endabnahme.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Referenzen + Nachweise -->
+    <section class="section" id="referenzen">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Referenzen</p>
+          <h2>Das sagen unsere Kunden</h2>
+        </div>
+        <div class="proof-grid">
+          <div class="testimonials">
+            <blockquote class="card reveal">
+              <span class="stars" role="img" aria-label="5 von 5 Sternen">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+              </span>
+              <p>„Samstagabend Scheibe eingeschlagen, sonntags war alles gesichert und Dienstag die neue Verglasung drin. Schneller geht es nicht."</p>
+              <footer>M. Brandt · Einzelhandel, Berlin-Mitte</footer>
+            </blockquote>
+            <blockquote class="card reveal">
+              <span class="stars" role="img" aria-label="5 von 5 Sternen">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5z"/></svg>
+              </span>
+              <p>„Die Duschkabine passt auf den Millimeter unter die Dachschräge. Beratung, Preis und Montage – alles top und wie besprochen."</p>
+              <footer>Familie Yilmaz · Privatkunde, Pankow</footer>
+            </blockquote>
+          </div>
+          <aside class="badges reveal" aria-label="Qualifikationen und Nachweise">
+            <h3>Geprüfte Qualität</h3>
+            <p class="badge-item">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>Meisterbetrieb<small>Eingetragen in der Handwerksrolle</small></span>
+            </p>
+            <p class="badge-item">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/></svg>
+              <span>Glaser-Innung<small>Mitglied der Innung des Glaserhandwerks</small></span>
+            </p>
+            <p class="badge-item">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              <span>Versichert &amp; zertifiziert<small>Betriebshaftpflicht, DIN-gerechte Montage</small></span>
+            </p>
+            <p class="badge-item">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6.5"/><path d="m16 19 2 2 4-4"/><path d="M3 10h18"/></svg>
+              <span>Direkte Abrechnung<small>Mit allen gängigen Versicherungen</small></span>
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Kontakt / CTA -->
+    <section class="section contact" id="kontakt">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Kontakt</p>
+          <h2>Kostenloses Angebot anfordern</h2>
+          <p>Beschreiben Sie kurz Ihr Anliegen – wir melden uns werktags innerhalb von 2&nbsp;Stunden mit einer ersten Einschätzung.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <p class="contact-line">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span><strong>24h-Notdienst</strong><a href="tel:+49301234567">030 123 45 67</a></span>
+            </p>
+            <p class="contact-line">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span><strong>E-Mail</strong><a href="mailto:info@glaeserei-klarblick.de">info@glaeserei-klarblick.de</a></span>
+            </p>
+            <p class="contact-line">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span><strong>Werkstatt</strong><span>Glasweg 12, 10115 Berlin</span></span>
+            </p>
+            <p class="contact-line">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span><strong>Öffnungszeiten</strong><span>Mo–Fr 7:30–17:00 Uhr, Sa 9:00–13:00 Uhr</span></span>
+            </p>
+          </div>
+          <form class="card form-grid" action="#" method="post" novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="name">Name <span class="required" aria-hidden="true">*</span></label>
+                <input class="input" id="name" name="name" type="text" autocomplete="name" required aria-required="true">
+              </div>
+              <div class="field">
+                <label for="phone">Telefon <span class="required" aria-hidden="true">*</span></label>
+                <input class="input" id="phone" name="phone" type="tel" autocomplete="tel" required aria-required="true">
+                <span class="hint">Für schnelle Rückfragen zum Termin.</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="email">E-Mail</label>
+              <input class="input" id="email" name="email" type="email" autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="topic">Anliegen <span class="required" aria-hidden="true">*</span></label>
+              <select class="input" id="topic" name="topic" required aria-required="true">
+                <option value="">Bitte wählen …</option>
+                <option>Notverglasung / Glasbruch</option>
+                <option>Fenster &amp; Isolierglas</option>
+                <option>Duschkabine</option>
+                <option>Glastür / Trennwand</option>
+                <option>Spiegel / Glasrückwand</option>
+                <option>Sonstiges</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message">Nachricht <span class="required" aria-hidden="true">*</span></label>
+              <textarea class="input" id="message" name="message" required aria-required="true"></textarea>
+              <span class="hint">Maße, Etage und Zeitfenster helfen uns bei der ersten Einschätzung.</span>
+            </div>
+            <button class="btn-primary" type="submit">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
+              Anfrage senden
+            </button>
+            <p class="form-note">Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Daten gemäß unserer <a href="#">Datenschutzerklärung</a> zu. <span class="required" aria-hidden="true">*</span> Pflichtfelder</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div>
+        <p class="brand">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 17 17 7"/><path d="M7 11l4-4"/></svg>
+          Gläserei Klarblick
+        </p>
+        <p>Meisterbetrieb für Glas &amp; Verglasung.<br>Glasweg 12, 10115 Berlin</p>
+      </div>
+      <nav aria-label="Footer-Navigation">
+        <h3>Seiten</h3>
+        <ul>
+          <li><a href="#leistungen">Leistungen</a></li>
+          <li><a href="#ablauf">Ablauf</a></li>
+          <li><a href="#referenzen">Referenzen</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Rechtliches">
+        <h3>Rechtliches</h3>
+        <ul>
+          <li><a href="#">Impressum</a></li>
+          <li><a href="#">Datenschutz</a></li>
+          <li><a href="#">AGB</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="container">
+      <p class="footer-bottom">© 2026 Gläserei Klarblick. Alle Rechte vorbehalten.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile-Navigation
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('mobile-menu');
+    toggle.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    });
+    menu.addEventListener('click', (e) => {
+      if (e.target.matches('a')) {
+        menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Scroll-Reveal (respektiert prefers-reduced-motion via CSS)
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            entry.target.style.transitionDelay = `${Math.min(i * 40, 200)}ms`;
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealEls.forEach((el) => io.observe(el));
+    } else {
+      revealEls.forEach((el) => el.classList.add('visible'));
+    }
+
+    // Zähler-Animation für Kennzahlen
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      const counters = document.querySelectorAll('.metric-value[data-count]');
+      const fmt = new Intl.NumberFormat('de-DE');
+      const animate = (el) => {
+        const target = parseFloat(el.dataset.count);
+        const decimals = parseInt(el.dataset.decimals || '0', 10);
+        const prefix = (el.dataset.prefix || '').replace('&lt;', '<');
+        const suffix = el.dataset.suffix || '';
+        const duration = 900;
+        const start = performance.now();
+        const step = (now) => {
+          const t = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - t, 3);
+          const value = target * eased;
+          el.textContent = prefix + fmt.format(decimals ? value.toFixed(decimals) : Math.round(value)) + suffix;
+          if (t < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) { animate(entry.target); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.5 });
+      counters.forEach((el) => io.observe(el));
+    }
+  </script>
+</body>
+</html>
