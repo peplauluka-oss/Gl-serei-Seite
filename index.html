@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <script>document.documentElement.classList.add('js');</script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/shatter.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -52,97 +53,87 @@
   </nav>
 
   <main id="main">
-    <!-- Hero -->
-    <header class="hero">
-      <div class="glass-pane pane-1" aria-hidden="true"></div>
-      <div class="glass-pane pane-2" aria-hidden="true"></div>
-      <div class="glass-pane pane-3" aria-hidden="true"></div>
+    <!-- Glasbruch-Hero -->
+    <header class="hero-shatter" id="top">
+      <div class="shatter-stage" aria-hidden="true"><svg></svg></div>
       <div class="container">
-        <div class="hero-grid">
-          <div>
-            <p class="hero-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-              Meisterbetrieb in Berlin-Falkenberg
-            </p>
-            <h1>Klare Sache: <span class="accent">Glas nach Maß</span> aus Ihrer Berliner Glaserei.</h1>
-            <p class="lede">Von der Neuverglasung über Duschkabinen bis zum Aquarium nach Maß – die Glasquelle GbR fertigt und montiert Glas in Meisterqualität. Persönlich beraten, präzise gearbeitet, fair kalkuliert.</p>
-            <div class="hero-actions">
-              <a class="btn-primary" href="kontakt.html">
-                Angebot anfragen
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-              <a class="btn-secondary" href="tel:+493093022931">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                030 930 229 31
-              </a>
-            </div>
-            <ul class="hero-trust">
-              <li>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Inhabergeführter Handwerksbetrieb
-              </li>
-              <li>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Eigene Werkstatt in Falkenberg
-              </li>
-              <li>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Beratung &amp; Aufmaß vor Ort
-              </li>
-            </ul>
+        <div class="hero-copy">
+          <p class="hero-kicker" data-act style="--act:0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 10h6L11 22l2-10H7z"/></svg>
+            Ihre Glaserei in Berlin-Falkenberg
+          </p>
+          <h1>
+            <span class="line line-broken" data-act style="--act:1">Glas kaputt?</span>
+            <span class="line line-fix" data-act style="--act:2">Kein Problem.</span>
+          </h1>
+          <p class="hero-slogan" data-act style="--act:3"><strong>Glasquelle</strong> repariert. <strong>Glasquelle</strong> tauscht aus.</p>
+          <p class="lede" data-act style="--act:4">Vom gesprungenen Fenster bis zum Aquarium nach Maß: Der Meisterbetrieb von Olaf Glaßmann &amp; Karsten Skarupke fertigt in der eigenen Werkstatt – präzise, ehrlich kalkuliert, persönlich.</p>
+          <div class="hero-actions" data-act style="--act:5">
+            <a class="btn-amber" href="tel:+493093022931">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Jetzt anrufen: 030 930 229 31
+            </a>
+            <a class="btn-secondary" href="leistungen.html">Leistungen ansehen</a>
           </div>
-          <div class="hero-visual reveal-scale draw-on-reveal" aria-hidden="true">
-            <!-- Glasscheibe mit Lichtbrechung -->
-            <svg viewBox="0 0 480 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration einer Glasscheibe mit Lichtbrechung">
-              <defs>
-                <linearGradient id="paneFill" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.9"/>
-                  <stop offset="0.5" stop-color="#E0F2FE" stop-opacity="0.55"/>
-                  <stop offset="1" stop-color="#BAE6FD" stop-opacity="0.35"/>
-                </linearGradient>
-                <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0.3">
-                  <stop offset="0" stop-color="#0EA5E9" stop-opacity="0"/>
-                  <stop offset="0.5" stop-color="#0EA5E9" stop-opacity="0.35"/>
-                  <stop offset="1" stop-color="#0369A1" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-              <!-- Lichtstrahl -->
-              <polygon points="0,60 480,180 480,260 0,120" fill="url(#beam)"/>
-              <!-- Glasscheibe -->
-              <g transform="rotate(-4 240 200)">
-                <rect x="110" y="60" width="260" height="300" rx="14" fill="url(#paneFill)" stroke="#0369A1" stroke-width="2.5" class="draw"/>
-                <path d="M140 330 330 90" stroke="#7DD3FC" stroke-width="3" stroke-linecap="round" class="draw"/>
-                <path d="M140 270 260 120" stroke="#BAE6FD" stroke-width="2" stroke-linecap="round" class="draw"/>
-              </g>
-              <!-- Funkeln -->
-              <path d="M395 90l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#0EA5E9" opacity="0.7"/>
-              <path d="M80 300l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#0369A1" opacity="0.5"/>
-              <circle cx="430" cy="310" r="4" fill="#7DD3FC"/>
-              <circle cx="60" cy="120" r="3" fill="#BAE6FD"/>
-            </svg>
-          </div>
+          <ul class="hero-trust" data-act style="--act:6">
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Meisterbetrieb
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Eigene Werkstatt in Falkenberg
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              Beratung &amp; Aufmaß vor Ort
+            </li>
+          </ul>
         </div>
       </div>
+      <button class="replay-btn" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Glasbruch wiederholen
+      </button>
     </header>
 
-    <!-- Trust-Leiste -->
-    <section class="trust-bar" aria-label="Warum Glasquelle">
-      <div class="container" data-stagger>
-        <div class="trust-item reveal">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          <div><strong>Meisterbetrieb</strong><span>Glaserhandwerk mit Qualitätsanspruch</span></div>
+    <!-- Leistungs-Ticker -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Neuverglasung</span><span>Isolierglas</span><span>Glastüren</span><span>Duschkabinen nach Maß</span><span>Spiegel</span><span>Glaszuschnitt</span><span>Aquarien &amp; Terrarien</span><span>Schaufenster</span><span>Möbelglas</span><span>Sichtschutzglas</span>
+        <span>Neuverglasung</span><span>Isolierglas</span><span>Glastüren</span><span>Duschkabinen nach Maß</span><span>Spiegel</span><span>Glaszuschnitt</span><span>Aquarien &amp; Terrarien</span><span>Schaufenster</span><span>Möbelglas</span><span>Sichtschutzglas</span>
+      </div>
+    </div>
+
+    <!-- Soforthilfe bei Glasbruch -->
+    <section class="section-tight rescue-band" aria-labelledby="rescue-heading" style="padding-block: clamp(2.5rem, 6vw, 4.5rem);">
+      <div class="container">
+        <div class="section-head" style="margin-bottom: var(--space-xl);">
+          <p class="eyebrow">Scheibe kaputt – was jetzt?</p>
+          <h2 id="rescue-heading">In drei Schritten wieder ganz</h2>
         </div>
-        <div class="trust-item reveal">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-          <div><strong>Eigene Werkstatt</strong><span>Zuschnitt &amp; Fertigung in Falkenberg</span></div>
-        </div>
-        <div class="trust-item reveal">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h4l3-9 4 18 3-9h6"/></svg>
-          <div><strong>Maßarbeit</strong><span>Millimetergenau nach Aufmaß</span></div>
-        </div>
-        <div class="trust-item reveal">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          <div><strong>Persönlich</strong><span>Inhabergeführt von zwei Glasern</span></div>
+        <div class="rescue-grid" data-stagger>
+          <div class="rescue-step reveal">
+            <span class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <h3>1. Anrufen</h3>
+            <p>Schildern Sie uns kurz den Schaden – wir sagen Ihnen direkt am Telefon, wie es weitergeht und was es ungefähr kostet.</p>
+          </div>
+          <div class="rescue-step reveal">
+            <span class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <h3>2. Absichern</h3>
+            <p>Splitter liegen lassen, Bereich freihalten, nichts mit bloßen Händen anfassen – den Rest übernehmen wir.</p>
+          </div>
+          <div class="rescue-step reveal">
+            <span class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+            </span>
+            <h3>3. Wir verglasen neu</h3>
+            <p>Aufmaß, klares Angebot, saubere Montage – Ihre Scheibe ist meist schneller wieder ganz, als Sie denken.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -157,7 +148,7 @@
         </div>
         <div class="grid-3" data-stagger>
           <a class="glass-card lift reveal" href="leistungen.html#neuverglasung">
-            <span class="card-icon">
+            <span class="card-icon tone-amber">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 3 4 8-3 2 2 8"/></svg>
             </span>
             <h3>Reparatur &amp; Neuverglasung</h3>
@@ -177,7 +168,7 @@
             </span>
           </a>
           <a class="glass-card lift reveal" href="leistungen.html#glastueren">
-            <span class="card-icon">
+            <span class="card-icon tone-deep">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v18"/><path d="M2 22h20"/><path d="M14 12h.01"/></svg>
             </span>
             <h3>Glastüren &amp; Trennwände</h3>
@@ -197,7 +188,7 @@
             </span>
           </a>
           <a class="glass-card lift reveal" href="leistungen.html#spiegel">
-            <span class="card-icon">
+            <span class="card-icon tone-deep">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 9c1.2-1.8 3-2.5 4.5-2.5"/></svg>
             </span>
             <h3>Spiegel &amp; Glaszuschnitt</h3>
@@ -207,7 +198,7 @@
             </span>
           </a>
           <a class="glass-card lift reveal" href="leistungen.html#aquarien">
-            <span class="card-icon">
+            <span class="card-icon tone-amber">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6z"/><path d="M18 12v.01"/><path d="M6.5 12C4.5 10 2.5 9.5 2 9.5c0 1 .5 2.5 1.5 2.5-1 0-1.5 1.5-1.5 2.5.5 0 2.5-.5 4.5-2.5z"/></svg>
             </span>
             <h3>Aquarien nach Maß</h3>
@@ -250,7 +241,7 @@
     </section>
 
     <!-- Spezialität Aquarien -->
-    <section class="section" aria-labelledby="spezial-heading">
+    <section class="section tint-sky bg-shards cut-top cut-bottom" aria-labelledby="spezial-heading">
       <div class="container">
         <div class="feature-split">
           <div class="feature-media reveal-scale draw-on-reveal" aria-hidden="true">

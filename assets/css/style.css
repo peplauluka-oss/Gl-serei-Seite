@@ -1,7 +1,8 @@
 /* ============================================================
    Glasquelle GbR — Design System
    Basis: design-system/gläserei-dashboard/MASTER.md
-   Richtung: „Light & Glassy“ — hell, luftig, Glas-Effekte
+   Richtung: „Light & Glassy“ mit Bruch/Lösung-Dramaturgie —
+   warmes Amber markiert den Glasbruch, kühles Blau die Lösung.
    ============================================================ */
 
 :root {
@@ -28,6 +29,15 @@
   --glass-blur: 14px;
   --accent-gradient: linear-gradient(135deg, #0369A1 0%, #0EA5E9 100%);
   --sheen-gradient: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.55) 48%, transparent 62%);
+
+  /* Bruch/Lösung-Dramaturgie */
+  --color-amber: #D97706;
+  --color-amber-bright: #F59E0B;
+  --amber-gradient: linear-gradient(135deg, #D97706 0%, #FBBF24 100%);
+  --color-sand: #FDF4E4;
+  --color-sky-tint: #EFF7FD;
+  --hero-night-1: #081120;
+  --hero-night-2: #0F2237;
 
   /* Abstände */
   --space-xs: 0.25rem;
@@ -784,6 +794,265 @@ textarea.input { resize: vertical; min-height: 8rem; }
 .js .draw-on-reveal.visible rect.draw,
 .js .draw-on-reveal.visible circle.draw { stroke-dashoffset: 0; }
 
+/* ============================================================
+   Glasbruch-Hero („Glas kaputt? Kein Problem.“)
+   ============================================================ */
+.hero-shatter {
+  position: relative;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse 90% 70% at 72% 30%, rgba(14, 165, 233, 0.16), transparent 65%),
+    radial-gradient(ellipse 50% 45% at 12% 85%, rgba(217, 119, 6, 0.10), transparent 70%),
+    linear-gradient(165deg, var(--hero-night-1) 0%, var(--hero-night-2) 100%);
+  color: var(--color-on-primary);
+  min-height: min(88vh, 56rem);
+  display: grid;
+  align-items: center;
+  padding-block: clamp(4rem, 9vw, 6rem);
+}
+
+.shatter-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.shatter-stage svg { width: 100%; height: 100%; display: block; }
+
+.shard {
+  fill: url(#shard-fill);
+  stroke: rgba(190, 227, 248, 0.55);
+  stroke-width: 1;
+  will-change: transform, opacity;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.crack-line {
+  stroke: rgba(210, 235, 250, 0.75);
+  stroke-width: 1.6;
+  fill: none;
+  stroke-linecap: round;
+}
+.impact-flash {
+  fill: var(--color-amber-bright);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.hero-shatter .container { position: relative; z-index: 1; }
+.hero-copy { max-width: 44rem; }
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #BAE6FD;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  padding: 0.4375rem 1rem;
+  border-radius: 999px;
+  margin-bottom: var(--space-xl);
+}
+.hero-kicker svg { color: var(--color-amber-bright); }
+
+.hero-shatter h1 {
+  color: var(--color-on-primary);
+  font-size: clamp(2.75rem, 8vw, 5.25rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  margin-bottom: var(--space-lg);
+}
+.hero-shatter h1 .line { display: block; }
+.hero-shatter h1 .line-broken { color: #E2E8F0; }
+.hero-shatter h1 .line-fix {
+  background: var(--amber-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.08em;
+}
+
+.hero-slogan {
+  font-family: var(--font-heading);
+  font-size: clamp(1.1875rem, 2.4vw, 1.5rem);
+  font-weight: 500;
+  color: #BAE6FD;
+  margin-bottom: var(--space-md);
+}
+.hero-slogan strong { color: #FFFFFF; font-weight: 600; }
+
+.hero-shatter .lede {
+  font-size: clamp(1.0625rem, 1.8vw, 1.1875rem);
+  color: #B8C6D8;
+  max-width: 36em;
+  margin-bottom: var(--space-xl);
+}
+
+.hero-shatter .btn-secondary {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: var(--color-on-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+.hero-shatter .btn-secondary:hover { background: #FFFFFF; color: var(--color-primary); }
+.hero-shatter .hero-trust { color: #A9B8CB; }
+.hero-shatter .hero-trust svg { color: var(--color-amber-bright); }
+
+/* Einblend-Choreografie der Hero-Texte (JS setzt .play) */
+.js .hero-copy [data-act] { opacity: 0; transform: translateY(26px); }
+.js .hero-copy.play [data-act] {
+  animation: act-in 700ms var(--ease-out) forwards;
+  animation-delay: calc(var(--act) * 180ms);
+}
+@keyframes act-in { to { opacity: 1; transform: none; } }
+
+.replay-btn {
+  position: absolute;
+  right: clamp(0.75rem, 2vw, 2rem);
+  bottom: clamp(0.75rem, 2vw, 1.5rem);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #BAE6FD;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.5rem 0.875rem;
+  min-height: 40px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+.replay-btn:hover { background: rgba(255, 255, 255, 0.16); color: #FFFFFF; }
+
+/* ============ Soforthilfe-Band (warm) ============ */
+.rescue-band {
+  position: relative;
+  background: var(--color-sand);
+  border-block: 1px solid rgba(217, 119, 6, 0.18);
+}
+.rescue-band .eyebrow { color: var(--color-amber); }
+.rescue-band .eyebrow::before { background: var(--amber-gradient); }
+.rescue-grid { display: grid; gap: var(--space-lg); }
+@media (min-width: 900px) { .rescue-grid { grid-template-columns: repeat(3, 1fr); } }
+.rescue-step {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  transition: transform 250ms var(--ease-out), box-shadow 250ms ease;
+}
+.rescue-step:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(217, 119, 6, 0.12); }
+.rescue-step .card-icon {
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.14), rgba(251, 191, 36, 0.1));
+  border-color: rgba(217, 119, 6, 0.25);
+  color: var(--color-amber);
+}
+.rescue-step h3 { font-size: 1.1875rem; margin-bottom: var(--space-sm); }
+.rescue-step p { color: var(--color-secondary); font-size: 0.9688rem; }
+
+.btn-amber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 0.8125rem 1.625rem;
+  min-height: 48px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  background: var(--amber-gradient);
+  color: #451A03;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  transition: transform 200ms var(--ease-out), box-shadow 200ms ease;
+}
+.btn-amber:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217, 119, 6, 0.45); }
+.btn-amber:active { transform: translateY(0) scale(0.98); }
+
+/* ============ Schräg geschnittene Sektionen (Glaskanten) ============ */
+.cut-top { clip-path: polygon(0 clamp(1rem, 3vw, 3rem), 100% 0, 100% 100%, 0 100%); margin-top: calc(clamp(1rem, 3vw, 3rem) * -1); }
+.cut-bottom { clip-path: polygon(0 0, 100% 0, 100% calc(100% - clamp(1rem, 3vw, 3rem)), 0 100%); }
+.tint-sky { background: var(--color-sky-tint); }
+
+/* Dekorative Scherben in Sektionshintergründen */
+.bg-shards { position: relative; overflow: clip; }
+.bg-shards::before, .bg-shards::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.09), rgba(186, 230, 253, 0.05));
+  border: 1px solid rgba(14, 165, 233, 0.14);
+}
+.bg-shards::before {
+  width: 16rem; height: 16rem;
+  top: -5rem; right: -4rem;
+  clip-path: polygon(15% 0, 100% 28%, 78% 100%, 0 72%);
+  rotate: 8deg;
+}
+.bg-shards::after {
+  width: 9rem; height: 9rem;
+  bottom: -3rem; left: 4%;
+  clip-path: polygon(0 22%, 72% 0, 100% 80%, 30% 100%);
+  rotate: -12deg;
+}
+.bg-shards > .container { position: relative; }
+
+/* Farbvarianten der Icon-Kacheln (bricht die Monotonie im Raster) */
+.card-icon.tone-amber {
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.13), rgba(251, 191, 36, 0.09));
+  border-color: rgba(217, 119, 6, 0.24);
+  color: var(--color-amber);
+}
+.card-icon.tone-deep {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.08), rgba(51, 65, 85, 0.06));
+  border-color: rgba(51, 65, 85, 0.2);
+  color: var(--color-primary);
+}
+
+/* Marquee-Leiste mit Leistungs-Stichworten */
+.ticker {
+  overflow: hidden;
+  border-block: 1px solid var(--color-border);
+  background: #FFFFFF;
+  padding-block: 0.875rem;
+}
+.ticker-track {
+  display: flex;
+  gap: 2.5rem;
+  width: max-content;
+  animation: ticker-scroll 36s linear infinite;
+}
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.ticker-track span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--color-secondary);
+  white-space: nowrap;
+}
+.ticker-track span::before {
+  content: "";
+  width: 8px; height: 8px;
+  background: var(--accent-gradient);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+.ticker-track span:nth-child(even)::before { background: var(--amber-gradient); }
+@keyframes ticker-scroll { to { transform: translateX(-50%); } }
+
 /* ============ Reduzierte Bewegung ============ */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -799,4 +1068,7 @@ textarea.input { resize: vertical; min-height: 8rem; }
     stroke-dashoffset: 0;
   }
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+  .js .hero-copy [data-act] { opacity: 1; transform: none; animation: none; }
+  .shatter-stage, .replay-btn { display: none; }
+  .ticker-track { animation: none; flex-wrap: wrap; width: auto; }
 }
