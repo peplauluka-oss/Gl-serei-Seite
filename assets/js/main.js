@@ -10,11 +10,15 @@
   var menu = document.getElementById('mobile-menu');
 
   if (nav) {
+    var darkHero = document.body.classList.contains('has-dark-hero');
     var onScroll = function () {
       nav.classList.toggle('scrolled', window.scrollY > 8);
+      // Über dunklem Hero: transparent oben, solide/hell nach ~70% Viewporthöhe
+      if (darkHero) nav.classList.toggle('solid', window.scrollY > window.innerHeight * 0.7);
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
   }
 
   if (toggle && menu) {

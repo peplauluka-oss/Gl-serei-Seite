@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Glasquelle GbR – Ihre Glaserei in Berlin. Meisterbetrieb für Neuverglasung, Fensterglas, Glastüren, Duschkabinen, Spiegel und Aquarien nach Maß. Werkstatt in Berlin-Falkenberg.">
   <title>Glasquelle – Glaserei &amp; Meisterbetrieb in Berlin</title>
-  <meta property="og:title" content="Glas kaputt? Kein Problem. – Glasquelle Berlin">
-  <meta property="og:description" content="Glasquelle repariert. Glasquelle tauscht aus. Meisterbetrieb für Verglasung, Duschkabinen, Spiegel und Aquarien nach Maß in Berlin-Falkenberg.">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="de_DE">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <meta property="og:title" content="Präzision in Glas. – Glasquelle Berlin">
+  <meta property="og:description" content="Meisterbetrieb für Glas &amp; Design in Berlin-Falkenberg. Verglasung, Duschkabinen, Spiegel und Aquarien nach Maß.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
   <script>document.documentElement.classList.add('js');</script>
   <script src="assets/js/main.js" defer></script>
-  <script src="assets/js/shatter.js" defer></script>
+  <script type="module" src="assets/js/hero.bundle.js"></script>
 </head>
-<body>
+<body class="has-dark-hero">
   <a class="skip-link" href="#main">Zum Inhalt springen</a>
 
   <nav class="site-nav" aria-label="Hauptnavigation">
@@ -57,49 +57,25 @@
   </nav>
 
   <main id="main">
-    <!-- Glasbruch-Hero -->
-    <header class="hero-shatter" id="top">
-      <div class="shatter-stage" aria-hidden="true"><svg></svg></div>
-      <div class="container">
-        <div class="hero-copy">
-          <p class="hero-kicker" data-act style="--act:0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 10h6L11 22l2-10H7z"/></svg>
-            Ihre Glaserei in Berlin-Falkenberg
-          </p>
-          <h1>
-            <span class="line line-broken" data-act style="--act:1">Glas kaputt?</span>
-            <span class="line line-fix" data-act style="--act:2">Kein Problem.</span>
-          </h1>
-          <p class="hero-slogan" data-act style="--act:3"><strong>Glasquelle</strong> repariert. <strong>Glasquelle</strong> tauscht aus.</p>
-          <p class="lede" data-act style="--act:4">Vom gesprungenen Fenster bis zum Aquarium nach Maß: Der Meisterbetrieb von Olaf Glaßmann &amp; Karsten Skarupke fertigt in der eigenen Werkstatt – präzise, ehrlich kalkuliert, persönlich.</p>
-          <div class="hero-actions" data-act style="--act:5">
-            <a class="btn-amber" href="tel:+493093022931">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              Jetzt anrufen: 030 930 229 31
-            </a>
-            <a class="btn-secondary" href="leistungen.html">Leistungen ansehen</a>
-          </div>
-          <ul class="hero-trust" data-act style="--act:6">
-            <li>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-              Meisterbetrieb
-            </li>
-            <li>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-              Eigene Werkstatt in Falkenberg
-            </li>
-            <li>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-              Beratung &amp; Aufmaß vor Ort
-            </li>
-          </ul>
-        </div>
+    <!-- Glasbruch-Hero (Three.js / WebGL) -->
+    <section id="glass-hero" class="glass-hero" aria-label="Glasquelle – Präzision in Glas">
+      <div class="gh-stage" data-gh-stage></div>
+      <div class="gh-overlay">
+        <p class="gh-eyebrow">Meisterbetrieb · Berlin-Falkenberg</p>
+        <h1 class="gh-h1"><span class="gh-word">Präzision</span> <span class="gh-word">in</span> <span class="gh-word">Glas.</span></h1>
+        <p class="gh-sub">Meisterbetrieb für Glas &amp; Design</p>
+        <a class="gh-cta" href="kontakt.html">Beratung anfragen
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
       </div>
-      <button class="replay-btn" type="button">
+      <button class="gh-replay" type="button" aria-label="Glasbruch-Animation erneut abspielen">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-        Glasbruch wiederholen
+        Wiederholen
       </button>
-    </header>
+      <div class="gh-scroll-hint" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+      </div>
+    </section>
 
     <!-- Leistungs-Ticker -->
     <div class="ticker" aria-hidden="true">

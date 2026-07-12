@@ -1074,3 +1074,95 @@ textarea.input { resize: vertical; min-height: 8rem; }
   .shatter-stage, .replay-btn { display: none; }
   .ticker-track { animation: none; flex-wrap: wrap; width: auto; }
 }
+
+/* ============================================================
+   Glasbruch-Hero (Three.js/WebGL) — gescopt unter #glass-hero
+   ============================================================ */
+.glass-hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 600px;
+  overflow: hidden;
+  background: #0d0f12;
+  --gh-cyan: #4fd8eb;
+}
+/* Hero full-bleed hinter die transparente Navigation ziehen */
+.has-dark-hero .glass-hero { margin-top: calc(var(--nav-height) * -1); }
+.has-dark-hero .gh-overlay { padding-top: var(--nav-height); }
+.gh-stage { position: absolute; inset: 0; z-index: 0; }
+.gh-stage canvas { display: block; width: 100%; height: 100%; }
+/* Fallback ohne WebGL: eleganter statischer Verlauf */
+.glass-hero.gh-nowebgl .gh-stage {
+  background:
+    radial-gradient(ellipse 60% 50% at 62% 42%, rgba(79,216,235,0.18), transparent 70%),
+    linear-gradient(160deg, #0d0f12, #0f2237);
+}
+.gh-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 0 6vw; pointer-events: none;
+}
+.gh-eyebrow {
+  font-family: var(--font-heading);
+  font-size: clamp(0.7rem, 1.1vw, 0.85rem); letter-spacing: 0.42em; text-transform: uppercase;
+  color: var(--gh-cyan); font-weight: 500; margin-bottom: clamp(1rem, 2vw, 1.6rem);
+}
+.gh-h1 {
+  font-family: var(--font-heading);
+  font-weight: 600; color: #F4F8FB; line-height: 1.02; letter-spacing: 0.01em;
+  font-size: clamp(2.6rem, 8.5vw, 7rem); text-shadow: 0 2px 40px rgba(0,0,0,0.5);
+}
+.gh-h1 .gh-word { display: inline-block; will-change: transform, filter, opacity; }
+.gh-sub {
+  margin-top: clamp(1rem, 2.2vw, 1.8rem); color: #9FB2C0; font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.4rem); letter-spacing: 0.14em;
+}
+.gh-cta {
+  margin-top: clamp(1.8rem, 3vw, 2.6rem); pointer-events: auto;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--font-body); font-size: 1.0625rem; font-weight: 600; letter-spacing: 0.02em;
+  color: #06232a; background: var(--gh-cyan); text-decoration: none; cursor: pointer;
+  padding: 0.9rem 1.9rem; min-height: 48px; border-radius: 100px;
+  box-shadow: 0 0 0 1px rgba(79,216,235,0.4), 0 8px 30px rgba(79,216,235,0.25);
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
+}
+.gh-cta:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(79,216,235,0.6), 0 12px 40px rgba(79,216,235,0.4); }
+.gh-cta:active { transform: translateY(0) scale(0.98); }
+.gh-replay {
+  position: absolute; right: 18px; bottom: 16px; z-index: 3; pointer-events: auto;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: var(--font-body); font-size: 12px; font-weight: 500; letter-spacing: 0.04em; color: #8fa6b4;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 100px; padding: 8px 14px; min-height: 36px; cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.gh-replay:hover { color: #cfe8ff; background: rgba(255,255,255,0.1); }
+.gh-scroll-hint {
+  position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 2;
+  color: rgba(159,178,192,0.7); pointer-events: none;
+  animation: gh-bob 2.4s ease-in-out infinite;
+}
+@keyframes gh-bob { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+
+/* Navigation über dunklem Hero: transparent + helle Schrift oben, hell/solide nach Scroll */
+.has-dark-hero .site-nav { background: transparent; border-color: transparent; box-shadow: none; }
+.has-dark-hero .site-nav .brand,
+.has-dark-hero .site-nav .nav-links a { color: #F4F8FB; }
+.has-dark-hero .site-nav .brand small { color: #9FB2C0; }
+.has-dark-hero .site-nav .nav-links a:hover { color: var(--gh-cyan, #4fd8eb); background: rgba(255,255,255,0.06); }
+.has-dark-hero .site-nav .nav-toggle { color: #F4F8FB; border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.06); }
+.has-dark-hero .site-nav.solid {
+  background: rgba(248,250,252,0.86);
+  -webkit-backdrop-filter: blur(var(--glass-blur)); backdrop-filter: blur(var(--glass-blur));
+  border-color: var(--glass-edge); box-shadow: var(--shadow-md);
+}
+.has-dark-hero .site-nav.solid .brand { color: var(--color-primary); }
+.has-dark-hero .site-nav.solid .brand small { color: var(--color-secondary); }
+.has-dark-hero .site-nav.solid .nav-links a { color: var(--color-secondary); }
+.has-dark-hero .site-nav.solid .nav-links a[aria-current="page"] { color: var(--color-accent); }
+.has-dark-hero .site-nav.solid .nav-toggle { color: var(--color-primary); border-color: var(--color-border); background: var(--glass-bg-strong); }
+
+@media (prefers-reduced-motion: reduce) {
+  .gh-scroll-hint { animation: none; }
+}
